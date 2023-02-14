@@ -15,6 +15,7 @@ use DOMDocument;
 use DOMElement;
 use DOMNode;
 use DOMText;
+use Exception;
 use SAML2\Constants as C;
 use SAML2\DOMDocumentFactory;
 use SimpleSAML\Assert\Assert;
@@ -56,10 +57,8 @@ class XML
         $debug = Configuration::getInstance()->getOptionalArray('debug', ['validatexml' => false]);
 
         if (
-            !(
-                in_array('validatexml', $debug, true)
-                || (array_key_exists('validatexml', $debug) && ($debug['validatexml'] === true))
-            )
+            !in_array('validatexml', $debug, true)
+            && !(array_key_exists('validatexml', $debug) && ($debug['validatexml'] === true))
         ) {
             // XML validation is disabled
             return;
@@ -131,7 +130,7 @@ class XML
                 Logger::debug('Encrypted message:');
                 break;
             default:
-                Assert::true(false);
+                throw new Exception(sprintf('Unknown message type;  %s', $type));
         }
 
         $str = $this->formatXMLString($message);
