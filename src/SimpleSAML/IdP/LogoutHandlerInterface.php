@@ -30,7 +30,7 @@ interface LogoutHandlerInterface
      * @param array &$state The logout state.
      * @param string $assocId The association that started the logout.
      */
-    public function startLogout(array &$state, string $assocId): Response;
+    public function startLogout(array &$state, ?string $assocId): Response;
 
 
     /**
