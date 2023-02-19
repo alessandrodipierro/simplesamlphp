@@ -9,8 +9,8 @@ use SimpleSAML\Assert\Assert;
 use SimpleSAML\Auth;
 use SimpleSAML\Configuration;
 use SimpleSAML\Error;
-use SimpleSAML\HTTP\RunnableResponse;
 use SimpleSAML\Session;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Authentication source which delegates authentication to secondary
@@ -56,7 +56,7 @@ abstract class AbstractSourceSelector extends Auth\Source
      *
      * @param array &$state Information about the current authentication.
      */
-    public function authenticate(array &$state): void
+    public function authenticate(array &$state): ?Response
     {
         $source = $this->selectAuthSource($state);
         $as = Auth\Source::getById($source);
@@ -64,19 +64,21 @@ abstract class AbstractSourceSelector extends Auth\Source
             throw new Exception('Invalid authentication source: ' . $source);
         }
 
-        static::doAuthentication($as, $state);
+        return static::doAuthentication($as, $state);
     }
 
 
     /**
      * @param \SimpleSAML\Auth\Source $as
      * @param array $state
-     * @return void
      */
-    public static function doAuthentication(Auth\Source $as, array $state): void
+    public static function doAuthentication(Auth\Source $as, array $state): ?Response
     {
         try {
-            $as->authenticate($state);
+            $response = $as->authenticate($state);
+            if ($response instanceof Response) {
+                return $response;
+            }
         } catch (Error\Exception $e) {
             Auth\State::throwException($state, $e);
         } catch (Exception $e) {
@@ -84,8 +86,7 @@ abstract class AbstractSourceSelector extends Auth\Source
             Auth\State::throwException($state, $e);
         }
 
-        $response = parent::completeAuth($state);
-        $response->send();
+        return parent::completeAuth($state);
     }
 
 
