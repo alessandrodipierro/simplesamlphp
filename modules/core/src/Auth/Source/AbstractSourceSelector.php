@@ -84,7 +84,8 @@ abstract class AbstractSourceSelector extends Auth\Source
             Auth\State::throwException($state, $e);
         }
 
-        Auth\Source::completeAuth($state);
+        $response = parent::completeAuth($state);
+        $response->send();
     }
 
 
