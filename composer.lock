@@ -1842,12 +1842,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplesamlphp/saml2.git",
-                "reference": "39f09ea3297ddf6a5ca7abf228e93f750b6cd89d"
+                "reference": "5e3600ac26c111aa9da9699d4c0214fc956512d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplesamlphp/saml2/zipball/39f09ea3297ddf6a5ca7abf228e93f750b6cd89d",
-                "reference": "39f09ea3297ddf6a5ca7abf228e93f750b6cd89d",
+                "url": "https://api.github.com/repos/simplesamlphp/saml2/zipball/5e3600ac26c111aa9da9699d4c0214fc956512d5",
+                "reference": "5e3600ac26c111aa9da9699d4c0214fc956512d5",
                 "shasum": ""
             },
             "require": {
@@ -1890,7 +1890,7 @@
                 "issues": "https://github.com/simplesamlphp/saml2/issues",
                 "source": "https://github.com/simplesamlphp/saml2/tree/feature/symfony_responses"
             },
-            "time": "2023-02-25T17:30:23+00:00"
+            "time": "2023-03-04T10:50:12+00:00"
         },
         {
             "name": "simplesamlphp/simplesamlphp-assets-base",
