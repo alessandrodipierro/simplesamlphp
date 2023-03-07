@@ -88,11 +88,12 @@ class MetaDataStorageHandler implements ClearableState
      *
      * @param string $property The metadata property which should be auto-generated.
      * @param string $set The set we the property comes from.
+     * @param string $overrideHost Hostname to use in the URLs
      *
      * @return string|array The auto-generated metadata property.
      * @throws \Exception If the metadata cannot be generated automatically.
      */
-    public function getGenerated(string $property, string $set)
+    public function getGenerated(string $property, string $set, string $overrideHost = null)
     {
         // first we check if the user has overridden this property in the metadata
         try {
@@ -107,6 +108,10 @@ class MetaDataStorageHandler implements ClearableState
         // get the configuration
         $httpUtils = new Utils\HTTP();
         $baseurl = $httpUtils->getSelfURLHost() . $this->globalConfig->getBasePath();
+
+        if ($overrideHost !== null) {
+            $baseurl = str_replace('://' . $httpUtils->getSelfHost(), '://' . $overrideHost, $baseurl);
+        }
 
         if ($set == 'saml20-sp-hosted') {
             if ($property === 'SingleLogoutServiceBinding') {
